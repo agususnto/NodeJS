@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Transfer Product</title>
+
+    <!-- Tautan Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Tautan Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <!-- Tautan Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Import Css CreateView -->
+    <link rel="stylesheet" href="/css/createView.css">
+    
+    <style>
+        .card-text strong {
+            display: inline-block;
+            width: 100px; 
+        }
+    </style>
+</head>
+
+<body class="container">
+    <div class="header-title">
+        <i class="fas fa-box-open fa-3x text-primary"></i>
+        <h1 class="display-4 fw-bold">Read Transfer Product</h1>
+    </div>
+
+    <div class="form-container">
+        <div class="card-body">
+            <h2 class="card-title">Transfer Product Information</h2>
+            <p></p>
+            <p class="card-text"><strong>ID:</strong> <%= transfer.id %></p>
+            <p class="card-text"><strong>Ref No:</strong> <%= transfer.refno %></p>
+            <p class="card-text"><strong>From:</strong> <%= transfer.from %></p>
+            <p class="card-text"><strong>To:</strong> <%= transfer.to %></p>
+            <p class="card-text"><strong>Note:</strong> <%= transfer.note %></p>
+        </div>
+    </div>
+
+    <a href="/transfer" class="btn btn-primary mt-3">Back to Product List</a>
+</body>
+</html>

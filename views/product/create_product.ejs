@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Product</title>
+
+    <!-- Tautan Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <!-- Tautan DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+
+    <!-- Tautan Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+
+<body class="container mt-5">
+    <div class="text-left mb-5">
+        <h1 class="display-4 fw-bold">Create Product</h1>
+    </div>
+
+    <form action="/createProduct" method="POST" class="row" enctype="multipart/form-data">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="sku" class="form-label">SKU:</label>
+                <input type="text" class="form-control" id="sku" name="sku" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="price" class="form-label">Price:</label>
+                <input type="number" class="form-control" id="price" name="price" required>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="stock" class="form-label">Stock:</label>
+                <input type="number" class="form-control" id="stock" name="stock" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="category" class="form-label">Category:</label>
+                <input type="text" class="form-control" id="category" name="category" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">Image:</label>
+                <input type="file" class="form-control" id="image" name="image" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="YouID" class="form-label">Select User:</label>
+                <input type="text" class="form-control" id="YouID" name="YouID" value="" readonly>
+                <p></p>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal">
+                    Select User
+                </button>
+            </div>
+        </div>
+    
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Create Product</button>
+        </div>
+    </form>
+
+    <!-- Modal untuk Select User -->
+    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userModalLabel">Select User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- Input untuk pencarian -->
+                <div class="modal-body">
+                    <table class="table table-bordered" id="userTable">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Office</th>
+                                <th>Age</th>
+                                <th>Start Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% users.forEach(user => { %>
+                                <tr data-user-id="<%= user._id %>">
+                                    <td><input type="checkbox" class="user-checkbox" data-user-id="<%= user._id %>" data-user-name="<%= user.name %>"></td>
+                                    <td><%= user.name %></td>
+                                    <td><%= user.position %></td>
+                                    <td><%= user.office %></td>
+                                    <td><%= user.age %></td>
+                                    <td><%= user.startDate %></td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="selectUsers()">Select</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Tautan jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Tautan DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- Tautan Select2 JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+
+<!-- Tautan Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Inisialisasi DataTable pada elemen tabel
+        var userTable = $('#userTable').DataTable({
+            "paging": false,
+            "columns": [
+                { 
+                    "data": null, 
+                    "defaultContent": "<input type='checkbox' class='user-checkbox'/>" 
+                },
+                { "data": "name" },
+                { "data": "position" },
+                { "data": "office" },
+                { "data": "age" },
+                { 
+                    "data": "startDate", 
+                    "type": "date", 
+                    "render": function (data) {
+                        return data ? new Date(data).toLocaleDateString() : "";
+                    } 
+                }
+            ],
+            "select": {
+                style: 'multi',
+                selector: 'td:first-child'
+            },
+        });
+
+        // Menangani pemilihan baris saat mengklik checkbox
+        $('#userTable tbody').on('click', 'input.user-checkbox', function () {
+            var checkbox = $(this);
+            var row = checkbox.closest('tr');
+
+            // Toggle seleksi baris
+            if (checkbox.prop('checked')) {
+                row.addClass('selected');
+            } else {
+                row.removeClass('selected');
+            }
+
+            // Panggil fungsi untuk menangani pemilihan baris
+            handleRowSelection();
+        });
+
+        // Menangani pemilihan baris saat mengklik seluruh baris
+        $('#userTable tbody').on('click', 'tr', function () {
+            var checkbox = $(this).find('input.user-checkbox');
+            checkbox.prop('checked', !checkbox.prop('checked')).trigger('change');
+
+            // Panggil fungsi untuk menangani pemilihan baris
+            handleRowSelection($(this));
+        });
+    });
+
+    function selectUser(userId, userName) {
+        var checkbox = $(`tr[data-user-id='${userId}'] input.user-checkbox`);
+        checkbox.prop('checked', !checkbox.prop('checked')).trigger('change');
+
+        // Panggil fungsi untuk menangani pemilihan baris
+        handleRowSelection(row);
+    }
+
+    function handleRowSelection() {
+        var checkbox = row.find('input.user-checkbox');
+        var selectedUsers = [];
+
+        // Dapatkan semua baris yang dipilih
+        $('#userTable tbody tr.selected').each(function () {
+            var userId = $(this).data('user-id');
+            var userName = $(this).find('td:eq(1)').text();
+            selectedUsers.push({ id: userId, name: userName });
+        });
+
+        // Setel nilai pada input YouID
+        $('#YouID').val(selectedUsers.map(user => user.name).join(',')).trigger('change');
+    }
+
+    function selectUsers() {
+        var selectedUserIds = [];
+
+        // Dapatkan semua baris yang dipilih
+        $('#userTable tbody tr.selected').each(function () {
+            var userId = $(this).data('user-id');
+            selectedUserIds.push(userId);
+        });
+
+        // Setel nilai pada input YouID
+        $('#YouID').val(selectedUserIds.join(',')).trigger('change');
+    }
+</script>
+</body>
+
+</html>

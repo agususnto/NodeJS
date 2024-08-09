@@ -1,0 +1,42 @@
+{
+  "name": "controllerrouth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "Agus Susanto",
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.2",
+    "axios": "^1.6.1",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "bootstrap": "^5.3.2",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^5.1.0",
+    "cors": "^2.8.5",
+    "datatables.net": "^1.13.8",
+    "datatables.net-buttons": "^2.4.2",
+    "datatables.net-dt": "^1.13.7",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-handlebars": "^7.1.2",
+    "express-session": "^1.17.3",
+    "express-validator": "^7.0.1",
+    "izitoast": "^1.4.0",
+    "moment": "^2.29.4",
+    "mongodb": "^6.2.0",
+    "mongoose": "^8.0.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.0.1",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "select2": "^4.1.0-rc.0"
+  }
+}
